@@ -1,8 +1,9 @@
-export type title = 'Work' | 'Play' | 'Study' | 'Exercise' | 'Social' | 'Self Care'
+import { Title } from './enums'
+// export type title = 'Work' | 'Play' | 'Study' | 'Exercise' | 'Social' | 'SelfCare'
 
 export interface StatisticsEntry {
   id: number
-  title: title
+  title: Title
   timeframes: {
     daily: {
       current: number

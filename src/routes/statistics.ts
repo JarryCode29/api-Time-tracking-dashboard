@@ -1,6 +1,6 @@
 import express from 'express'
 import * as statisticsServices from '../services/statisticsServices'
-
+import toNewStatisticsEntry from '../utils'
 const router = express.Router()
 
 router.get('/', (_req, res) => {
@@ -15,28 +15,15 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const { title, timeframes } = req.body
+  try {
+    const newStatisticsEntry = toNewStatisticsEntry(req.body)
+    const addStatisticsEntry = statisticsServices.addStatistics(newStatisticsEntry)
 
-  const newStatisticsEntry = statisticsServices.addStatistics({
-    title,
-    timeframes: {
-      daily: {
-        current: timeframes.daily.current,
-        previous: timeframes.daily.previous
-      },
-      weekly: {
-        current: timeframes.weekly.current,
-        previous: timeframes.weekly.previous
-      },
-      monthly: {
-        current: timeframes.monthly.current,
-        previous: timeframes.monthly.previous
-      }
-    }
-
-  })
-
-  res.json(newStatisticsEntry)
+    res.json(addStatisticsEntry)
+  } catch (e) {
+    const error = e as Error
+    res.status(400).send(error.message)
+  }
 })
 
 export default router
