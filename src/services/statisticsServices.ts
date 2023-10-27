@@ -14,9 +14,10 @@ export const findById = (id: number): NonSensitiveInfoStatisticsEntry | undefine
   return undefined
 }
 export const getEntriesWitHoutSensitiveInfo = (): NonSensitiveInfoStatisticsEntry[] => {
-  return statistics.map(({ id, timeframes }) => {
+  return statistics.map(({ id, title, timeframes }) => {
     return {
       id,
+      title,
       timeframes
     }
   })
